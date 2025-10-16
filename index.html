@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Faça Parte - Comunidade Casarão</title>
+    <link rel="icon" href="img/favicon_io/favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Anton:wght@400&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body { box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #03061c;
+            color: #FFFFFF;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .hero-section {
+            position: relative;
+            min-height: 100vh;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; padding: 2rem 1.5rem;
+            overflow: hidden;
+        }
+        .hero-section::before {
+            content: "";
+            position: absolute; inset: 0;
+            background-image:
+                linear-gradient(to bottom, rgba(3, 6, 28, 0) 60%, rgba(3, 6, 28, 1) 100%),
+                url('img/bg-img.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center center;
+            opacity: 0.2;
+            z-index: 0;
+        }
+        .hero-section * { position: relative; z-index: 1; }
+
+        .hero-title {
+            font-family: 'Anton', sans-serif;
+            font-size: clamp(3rem, 12vw, 5rem);
+            font-weight: 400; letter-spacing: -0.02em;
+            margin-bottom: 1.5rem; opacity: 0; animation: fadeInUp 1s ease-out 0.3s forwards;
+        }
+        .hero-subtitle {
+            font-size: 1.1rem; font-weight: 400; max-width: 320px; margin-bottom: 3rem;
+            opacity: 0; animation: fadeInUp 1s ease-out 0.6s forwards;
+        }
+        .cta-button {
+            background-color: #FFFFFF; color: #03061c; padding: 1rem 2.5rem; border: none; border-radius: 8px;
+            font-size: 1rem; font-weight: 600; text-decoration: none; display: inline-block; transition: .3s;
+            box-shadow: 0 4px 20px rgba(255,255,255,.1); opacity: 0; animation: fadeInUp 1s ease-out 0.9s forwards;
+        }
+        .cta-button:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(255,255,255,.2); }
+
+        .departments-section { padding: 4rem 1.5rem; max-width: 600px; margin: 0 auto; }
+
+        .accordion-item { margin-bottom: 1rem; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,.3); }
+        .accordion-header {
+            background-color: #060d2b; padding: 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+            transition: .3s; border: 1px solid rgba(255,255,255,.1);
+        }
+        .accordion-header:hover { background-color: rgba(255,255,255,.05); }
+        .accordion-title { font-family: 'Anton', sans-serif; font-size: 1.3rem; font-weight: 400; letter-spacing: -0.01em; }
+        .accordion-icon { font-size: 1.2rem; transition: transform .3s; }
+        .accordion-content { background-color: rgba(255,255,255,.02); max-height: 0; overflow: hidden; transition: max-height .3s ease; }
+        .accordion-content.active { max-height: 500px; }
+        .accordion-header.active .accordion-icon { transform: rotate(180deg); }
+
+        .department-list { padding: 1.5rem; }
+        .department-link {
+            display: flex; align-items: center; gap: 12px;
+            padding: 1rem; margin-bottom: .5rem;
+            background-color: rgba(255,255,255,.05); border-radius: 8px; text-decoration: none; color: #FFFFFF; transition: .3s;
+            border: 1px solid rgba(255,255,255,.1);
+        }
+        .department-link:hover { background-color: rgba(255,255,255,.1); transform: translateX(5px); }
+
+        /* ÍCONES COMO IMAGENS */
+        .dept-icon {
+            width: 28px; height: 28px; flex: 0 0 28px;
+            object-fit: contain; /* mantém proporção */
+            image-rendering: -webkit-optimize-contrast;
+            display: block;
+        }
+        /* Se suas imagens estiverem pretas e quiser "branquear" em tempo real:
+           adicione a classe 'icon-white' no <img>. */
+        .icon-white { filter: brightness(0) invert(1); }
+
+        .logo-facaparte{ width: 25%; }
+        .logo-casarao{ width: 10%; }
+        .department-name { font-weight: 500; font-size: 1rem; }
+
+        .how-it-works { padding: 4rem 1.5rem; max-width: 600px; margin: 0 auto; text-align: center; }
+        .section-title { font-family: 'Anton', sans-serif; font-size: 2.5rem; font-weight: 400; letter-spacing: -0.01em; margin-bottom: 2rem; }
+        .steps-list { text-align: left; max-width: 400px; margin: 0 auto; }
+        .step-item { display: flex; align-items: flex-start; margin-bottom: 1.5rem; padding: 1rem; background-color: rgba(255,255,255,.03); border-radius: 8px; border-left: 4px solid #FFFFFF; }
+        .step-number { background-color: #FFFFFF; color: #03061c; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: .9rem; margin-right: 1rem; flex-shrink: 0; }
+        .step-text { font-size: 1rem; line-height: 1.5; }
+
+        .footer { padding: 3rem 1.5rem 2rem; text-align: center; border-top: 1px solid rgba(255,255,255,.1); background-color: #060d2b; }
+        .footer-title { font-family: 'Anton', sans-serif; font-size: 1.5rem; font-weight: 400; margin-bottom: 1rem; letter-spacing: -0.01em; }
+        .footer-note { font-size: .9rem; opacity: .7; margin-top: 1.5rem; }
+
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px);} to { opacity: 1; transform: translateY(0);} }
+
+        @media (max-width: 480px) {
+            .hero-section { padding: 1.5rem 1rem; }
+            .departments-section { padding: 3rem 1rem; }
+            .accordion-header { padding: 1.2rem; }
+            .accordion-title { font-size: 1.2rem; }
+            .logo-casarao{ width: 30%; }
+            .logo-facaparte{ width: 50% }
+        }
+    </style>
+</head>
+<body>
+    <!-- (Opcional) Você pode remover o SPRITE DE ÍCONES antigo -->
+
+    <!-- Tela Inicial -->
+    <section class="hero-section">
+        <img class="logo-facaparte" src="img/casarao branco.png" alt="Comunidade Casarão">
+        <h1 class="hero-title">FAÇA PARTE</h1>
+        <p class="hero-subtitle">Faça parte do que Deus está construindo na nossa igreja.</p>
+        <a href="#departments" class="cta-button">QUERO FAZER PARTE!</a>
+    </section>
+
+    <!-- Seção de Departamentos -->
+    <section id="departments" class="departments-section">
+        <!-- Comunicação -->
+        <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <h3 class="accordion-title">COMUNICAÇÃO</h3>
+                <span class="accordion-icon">▼</span>
+            </div>
+            <div class="accordion-content">
+                <div class="department-list">
+                    <a href="https://wa.me/11959482807?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20o%20departamento%20de%20Story" class="department-link" target="_blank" rel="noopener noreferrer">
+                        <img class="dept-icon" src="img/icons/comunicacao-story.png" alt="Ícone Story">
+                        <span class="department-name">Story</span>
+                    </a>
+                    <a href="https://wa.me/11942898142?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20o%20departamento%20de%20Fotografia" class="department-link" target="_blank" rel="noopener noreferrer">
+                        <img class="dept-icon" src="img/icons/comunicacao-fotografia.png" alt="Ícone Fotografia">
+                        <span class="department-name">Fotografia</span>
+                    </a>
+                    <a href="https://wa.me/11996418661?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20o%20departamento%20de%20Transmissão" class="department-link" target="_blank" rel="noopener noreferrer">
+                        <img class="dept-icon" src="img/icons/comunicacao-transmissao.png" alt="Ícone Transmissão">
+                        <span class="department-name">Transmissão</span>
+                    </a>
+                    <a href="https://wa.me/11973821925?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20o%20departamento%20de%20Libras" class="department-link" target="_blank" rel="noopener noreferrer">
+                        <img class="dept-icon" src="img/icons/comunicacao-libras.png" alt="Ícone Transmissão">
+                        <span class="department-name">Libras</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Técnico -->
+        <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <h3 class="accordion-title">TÉCNICO</h3>
+                <span class="accordion-icon">▼</span>
+            </div>
+            <div class="accordion-content">
+                <div class="department-list">
+                    <a href="https://wa.me/11964268622?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20o%20departamento%20de%20Projeção" class="department-link" target="_blank" rel="noopener noreferrer">
+                        <img class="dept-icon" src="img/icons/tecnico-projecao.png" alt="Ícone Projeção">
+                        <span class="department-name">Projeção</span>
+                    </a>
+                    <a href="https://wa.me/995044131?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20o%20departamento%20de%20Iluminação" class="department-link" target="_blank" rel="noopener noreferrer">
+                        <img class="dept-icon" src="img/icons/tecnico-iluminacao.png" alt="Ícone Iluminação">
+                        <span class="department-name">Iluminação</span>
+                    </a>
+                    <a href="https://wa.me/11985234507?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20o%20departamento%20de%20Som" class="department-link" target="_blank" rel="noopener noreferrer">
+                        <img class="dept-icon" src="img/icons/tecnico-som.png" alt="Ícone Som">
+                        <span class="department-name">Som</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gerações -->
+        <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <h3 class="accordion-title">GERAÇÕES</h3>
+                <span class="accordion-icon">▼</span>
+            </div>
+            <div class="accordion-content">
+                <div class="department-list">
+                    <a href="https://wa.me/11998649906?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20o%20departamento%20de%20Família" class="department-link" target="_blank" rel="noopener noreferrer">
+                        <img class="dept-icon" src="img/icons/geracoes-familia.png" alt="Ícone Família">
+                        <span class="department-name">Família</span>
+                    </a>
+                    <a href="https://wa.me/11984886768?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20o%20departamento%20de%20Kids" class="department-link" target="_blank" rel="noopener noreferrer">
+                        <img class="dept-icon" src="img/icons/geracoes-kids.png" alt="Ícone Kids">
+                        <span class="department-name">Kids (Vencedores Kids)</span>
+                    </a>
+                    <a href="https://wa.me/959070134?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20o%20departamento%20de%20Jovens" class="department-link" target="_blank" rel="noopener noreferrer">
+                        <img class="dept-icon" src="img/icons/geracoes-jovens.png" alt="Ícone Jovens">
+                        <span class="department-name">Jovens</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ministério -->
+        <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <h3 class="accordion-title">MINISTÉRIO</h3>
+                <span class="accordion-icon">▼</span>
+            </div>
+            <div class="accordion-content">
+                <div class="department-list">
+                    <a href="https://wa.me/11982574528?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20o%20departamento%20de%20Cura%20e%20Libertação" class="department-link" target="_blank" rel="noopener noreferrer">
+                        <img class="dept-icon" src="img/icons/ministerio-libertacao.png" alt="Ícone Libertação">
+                        <span class="department-name">Cura e Libertação</span>
+                    </a>
+                    <a href="https://wa.me/11933757144?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20o%20departamento%20de%20Intercessão" class="department-link" target="_blank" rel="noopener noreferrer">
+                        <img class="dept-icon" src="img/icons/ministerio-intercessao.png" alt="Ícone Intercessão">
+                        <span class="department-name">Intercessão</span>
+                    </a>
+                    <a href="https://wa.me/11995967587?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20o%20departamento%20de%20Evangelismo" class="department-link" target="_blank" rel="noopener noreferrer">
+                        <img class="dept-icon" src="img/icons/ministerio-evangelismo.png" alt="Ícone Evangelismo">
+                        <span class="department-name">Evangelismo</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Apoio & Serviço -->
+        <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <h3 class="accordion-title">APOIO & SERVIÇO</h3>
+                <span class="accordion-icon">▼</span>
+            </div>
+            <div class="accordion-content">
+                <div class="department-list">
+                    <a href="https://wa.me/11951358899?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20o%20departamento%20de%20Diaconato" class="department-link" target="_blank" rel="noopener noreferrer">
+                        <img class="dept-icon" src="img/icons/apoio-diaconato.png" alt="Ícone Diaconato">
+                        <span class="department-name">Diaconato</span>
+                    </a>
+                    <a href="https://wa.me/11949185753?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20o%20departamento%20de%20Boas-vindas" class="department-link" target="_blank" rel="noopener noreferrer">
+                        <img class="dept-icon" src="img/icons/apoio-boasvindas.png" alt="Ícone Boas-vindas">
+                        <span class="department-name">Boas-vindas</span>
+                    </a>
+                    <a href="https://wa.me/11980399141?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20o%20departamento%20de%20Social" class="department-link" target="_blank" rel="noopener noreferrer">
+                        <img class="dept-icon" src="img/icons/apoio-social.png" alt="Ícone Social">
+                        <span class="department-name">Social</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ensino -->
+        <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <h3 class="accordion-title">ENSINO</h3>
+                <span class="accordion-icon">▼</span>
+            </div>
+            <div class="accordion-content">
+                <div class="department-list">
+                    <a href="https://wa.me/11973337865?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20o%20departamento%20de%20Empreendedores" class="department-link" target="_blank" rel="noopener noreferrer">
+                        <img class="dept-icon" src="img/icons/ensino-empreendedores.png" alt="Ícone Empreendedores">
+                        <span class="department-name">Empreendedores</span>
+                    </a>
+                    <a href="https://wa.me/11959070134?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20o%20departamento%20de%20Clube%20do%20Livro" class="department-link" target="_blank" rel="noopener noreferrer">
+                        <img class="dept-icon" src="img/icons/ensino-clubedolivro.png" alt="Ícone Clube do Livro">
+                        <span class="department-name">Clube do Livro</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Artes & Adoração -->
+        <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <h3 class="accordion-title">ARTES & ADORAÇÃO</h3>
+                <span class="accordion-icon">▼</span>
+            </div>
+            <div class="accordion-content">
+                <div class="department-list">
+                    <a href="https://wa.me/11984405008?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20o%20departamento%20de%20Louvor" class="department-link" target="_blank" rel="noopener noreferrer">
+                        <img class="dept-icon" src="img/icons/artes-louvor.png" alt="Ícone Louvor">
+                        <span class="department-name">Louvor</span>
+                    </a>
+                    <a href="https://wa.me/11975133627?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20o%20departamento%20de%20Teatro" class="department-link" target="_blank" rel="noopener noreferrer">
+                        <img class="dept-icon" src="img/icons/artes-teatro.png" alt="Ícone Teatro">
+                        <span class="department-name">Teatro</span>
+                    </a>
+                    <a href="https://wa.me/119419900739?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20o%20departamento%20de%20Dança" class="department-link" target="_blank" rel="noopener noreferrer">
+                        <img class="dept-icon" src="img/icons/artes-danca.png" alt="Ícone Dança">
+                        <span class="department-name">Dança</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Como Funciona -->
+    <section class="how-it-works">
+        <h2 class="section-title">COMO FUNCIONA</h2>
+        <div class="steps-list">
+            <div class="step-item">
+                <div class="step-number">1</div>
+                <div class="step-text">Clique na área que mais combina com você.</div>
+            </div>
+            <div class="step-item">
+                <div class="step-number">2</div>
+                <div class="step-text">Escolha o departamento.</div>
+            </div>
+            <div class="step-item">
+                <div class="step-number">3</div>
+                <div class="step-text">Envie a mensagem no WhatsApp. Pronto!</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rodapé -->
+    <footer class="footer">
+        <img class="logo-casarao" src="img/logo-casarao.png" alt="Logo Comunidade Casarão">
+        <h3 class="footer-title">COMUNIDADE CASARÃO — FAÇA PARTE</h3>
+    </footer>
+
+    <script>
+        function toggleAccordion(header) {
+            const content = header.nextElementSibling;
+            document.querySelectorAll('.accordion-content').forEach(item => {
+                if (item !== content) {
+                    item.classList.remove('active');
+                    item.previousElementSibling.classList.remove('active');
+                }
+            });
+            content.classList.toggle('active');
+            header.classList.toggle('active');
+        }
+
+        document.querySelector('.cta-button').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelector('#departments').scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
